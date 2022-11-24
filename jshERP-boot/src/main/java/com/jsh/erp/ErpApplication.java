@@ -1,22 +1,28 @@
 package com.jsh.erp;
 
 import com.jsh.erp.utils.ComputerInfo;
+import com.jsh.erp.utils.SpringContextUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 
 @SpringBootApplication
 @MapperScan("com.jsh.erp.datasource.mappers")
 @ServletComponentScan
 @EnableScheduling
+@EnableSwagger2
 public class ErpApplication{
     public static void main(String[] args) throws IOException {
         ConfigurableApplicationContext context = SpringApplication.run(ErpApplication.class, args);
@@ -24,5 +30,7 @@ public class ErpApplication{
         System.out.println("启动成功，后端服务API地址：http://" + ComputerInfo.getIpAddr() + ":"
                 + environment.getProperty("server.port") + "/jshERP-boot/doc.html");
         System.out.println("您还需启动前端服务，启动命令：yarn run serve 或 npm run serve，测试用户：jsh，密码：123456");
+
+        System.out.println(SpringContextUtil.getApplicationContext());
     }
 }
